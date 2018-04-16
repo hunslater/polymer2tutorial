@@ -1,0 +1,67 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="acme-calendar.html">
+
+<dom-module id="acme-calendar-test">
+    <template>
+        <style>
+            h3 {
+                color: red;
+            }
+        </style>
+
+        <h3>Year: [[year]] Month: [[month]] Day: [[day]]</h3>
+
+        <acme-calendar year="{{year}}" month="{{month}}" day="{{day}}" on-calendar-changed="_handleCalendarChanged"></acme-calendar>
+
+        <h3>Year: [[year2]] Month: [[month2]] Day: [[day2]]</h3>
+    </template>
+
+    <script>
+        class AcmeCalendarTest extends Polymer.Element {
+
+            static get is() {
+                return 'acme-calendar-test';
+            }
+
+            static get properties() {
+                return {
+                    year: {
+                        type: Number,
+                        value: 2018
+                    },
+                    month: {
+                        type: Number,
+                        value: 5
+                    },
+                    day: {
+                        type: Number,
+                        value: 13
+                    },
+                    year2: {
+                        type: Number,
+                        value: null
+                    },
+                    month2: {
+                        type: Number,
+                        value: null
+                    },
+                    day2: {
+                        type: Number,
+                        value: null
+                    }
+                };
+            }
+
+            _handleCalendarChanged(event) {
+                if (event.detail) {
+                    this.year2 = event.detail.year;
+                    this.month2 = event.detail.month;
+                    this.day2 = event.detail.day;
+                }
+            }
+
+        }
+
+        window.customElements.define(AcmeCalendarTest.is, AcmeCalendarTest);
+    </script>
+</dom-module>

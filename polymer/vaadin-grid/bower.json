@@ -1,0 +1,25 @@
+{
+    "name": "acme-test",
+    "authors": [
+        "zsolt.sandor@gmail.com"
+    ],
+    "description": "Acme test",
+    "main": "index.html",
+    "license": "MIT",
+    "homepage": "",
+    "private": true,
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "polymer": "Polymer/polymer#2.0.0",
+        "moment": "^2.20.1",
+        "vaadin-valo-theme": "vaadin/vaadin-valo-theme#^0.3.2",
+        "vaadin-grid": "vaadin/vaadin-grid#^4.1.5",
+        "iron-ajax": "^2.1.0"
+    }
+}

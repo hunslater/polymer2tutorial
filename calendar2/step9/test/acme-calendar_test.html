@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>acme-calendar test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../acme-calendar.html">
+</head>
+
+<body>
+
+    <test-fixture id="ChangedPropertyTestFixture">
+        <template>
+            <acme-calendar year="2015" month="5" day="13"></acme-calendar>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="AsyncTestFixture">
+        <template>
+                <acme-calendar></acme-calendar>
+            </template>
+    </test-fixture>
+
+    <script>
+        suite('acme-calendar', () => {
+
+            test('setting a property on the element works', () => {
+                const element = fixture('ChangedPropertyTestFixture');
+
+                assert.equal(element.year, '2015');
+                assert.equal(element.month, '5');
+                assert.equal(element.day, '13');
+            });
+
+
+            test('Correct day is selected', () => {
+                //debugger;
+
+                const element = fixture('ChangedPropertyTestFixture');
+                const elementShadowRoot = element.shadowRoot;
+
+                const template = elementShadowRoot.querySelector("#daysTemplate");
+                template.render();
+
+                const selectedDay = elementShadowRoot.querySelector("#daysPanel .day.currentDay");
+                assert.isDefined(selectedDay);
+
+                const selectedDayText = selectedDay.textContent.trim();
+                assert.equal(selectedDayText, '13');
+            });
+
+            test('Asynchronous rendering testing', function(done) {
+
+                const element = fixture('AsyncTestFixture');
+
+                element.addEventListener('dom-change', function(event) {
+                    const elementShadowRoot = element.shadowRoot;
+
+                    const selectedDay = elementShadowRoot.querySelector("#daysPanel .day.currentDay");
+
+                    if (selectedDay) {
+                        const selectedDayText = selectedDay.textContent.trim();
+                        assert.equal(selectedDayText, '13');
+                        done();
+                    }
+                });
+
+                element.setProperties({
+                    year: '2015',
+                    month: '5',
+                    day: '13'
+                });
+
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>

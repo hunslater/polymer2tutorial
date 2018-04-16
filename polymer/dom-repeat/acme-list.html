@@ -1,0 +1,35 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/polymer/lib/elements/dom-repeat.html">
+
+<dom-module id="acme-list">
+
+    <template>
+        <ul>
+            <template is="dom-repeat" items="{{items}}">
+                <li>{{item}}</li>
+            </template>
+    </ul>
+    </template>
+
+    <script>
+        class AcmeList extends Polymer.Element {
+
+            connectedCallback() {
+                super.connectedCallback();
+                this.items = ["a", "b", "c", "d", "e"];
+            }
+
+            static get is() {
+                return 'acme-list';
+            }
+
+            static get properties() {
+                return {
+                    items: Array
+                }
+            }
+        }
+
+        window.customElements.define(AcmeList.is, AcmeList);
+    </script>
+</dom-module>

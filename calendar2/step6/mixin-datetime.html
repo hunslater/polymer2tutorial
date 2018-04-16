@@ -1,0 +1,83 @@
+<link rel="import" href="shared-moment.html">
+
+<script>
+    window.Acme = window.Acme || {};
+
+    /*
+     * This mixin adds date time functionalities to class
+     * @polymer
+     * @mixinFunction
+     */
+    Acme.DatetimeMixin = Polymer.dedupingMixin((base) => class extends base {
+
+        _getMonthName(month, locale = "en") {
+            let months = moment().locale(locale).localeData().monthsShort();
+            return months[month - 1];
+        };
+
+        _getDayName(year, month, day, locale = "en") {
+            return moment({
+                year: year,
+                month: month - 1,
+                day: day
+            }).locale(locale).format('ddd');;
+        }
+
+        _getDayNamesOfWeek(locale = "en") {
+            let dayNames = moment().locale(locale).localeData().weekdaysMin();
+            dayNames.push(dayNames.shift());
+            return dayNames;
+        };
+
+        _getDaysFromLastMonth(date) {
+
+            // this represents the last days for previous month
+            let list = [];
+
+            // Gets or sets the ISO day of the week with 1 being Monday and 7 being Sunday.
+            const firstDayOfWeek = date.isoWeekday() - 1;
+
+            if (firstDayOfWeek > 0) {
+                let previousMonth = date.clone();
+                previousMonth.subtract(firstDayOfWeek, "days");
+
+                // fill up the calendarDays list with days from previous month
+                for (let i = 0; i < firstDayOfWeek; i++) {
+
+                    list.push({
+                        year: previousMonth.year(),
+                        month: previousMonth.month(),
+                        day: previousMonth.date(),
+                        before: true
+                    });
+
+                    previousMonth.add(1, "days");
+                }
+
+            }
+
+            return list;
+        }
+
+        _getDaysInMonth(date) {
+            return Array.from({
+                length: date.daysInMonth()
+            }, (x, i) => i + 1).map(x => ({
+                year: date.year(),
+                month: date.month(),
+                day: x
+            }));
+        }
+
+        _getDaysInCalendarMonth(year, month) {
+            let firstDay = moment([year, month - 1, 1]);
+
+            let beforeDays = this._getDaysFromLastMonth(firstDay);
+            let currentDays = this._getDaysInMonth(firstDay);
+
+            return [...beforeDays, ...currentDays];
+        }
+
+
+    });
+</script>

@@ -1,0 +1,32 @@
+<html>
+
+<head>
+    <script>
+        class HelloWorld extends HTMLElement {
+
+            constructor() {
+                super();
+                let shadowRoot = this.attachShadow({
+                    mode: 'open'
+                });
+
+                let label = document.createElement("span");
+                label.textContent = "Hello world";
+                shadowRoot.appendChild(label);
+            }
+        }
+
+        customElements.define("hello-world", HelloWorld);
+    </script>
+</head>
+
+<body>
+    <div id="placeholder"></div>
+
+    <script>
+        let helloWorld = new HelloWorld();
+        document.querySelector('#placeholder').appendChild(helloWorld);
+    </script>
+
+</body>
+</html>

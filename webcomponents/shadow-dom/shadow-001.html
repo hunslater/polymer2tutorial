@@ -1,0 +1,20 @@
+<html>
+
+<body>
+
+    <div id="wrapper">
+    </div>
+
+    <div>This has normal color.</div>
+
+    <script>
+        let shadowRoot = document.getElementById("wrapper").attachShadow({
+            mode: 'open'
+        });
+        shadowRoot.innerHTML = '<h1>This is some header</h1><div>This text is red.</div>';
+        shadowRoot.innerHTML += '<style>div { color: red; }</style>';
+    </script>
+
+</body>
+
+</html>

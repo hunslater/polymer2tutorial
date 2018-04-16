@@ -1,0 +1,172 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="bower_components/font-roboto-local/roboto.html">
+
+
+<dom-module id="acme-calendar">
+    <template>
+
+        <style>
+             :host {
+                display: block;
+                --row-height: 60px;
+            }
+
+            #wrapper {
+                font-family: Arial, sans-serif;
+                width: 400px;
+            }
+
+            #datePanel {
+                display: grid;
+                grid-template-columns: 80px auto;
+            }
+
+            #datePanel .year {
+                font-size: 30px;
+                grid-row: 1 / span 2;
+            }
+
+            #datePanel .date {
+                font-size: 14px;
+                grid-column: 2 / 2;
+            }
+
+            #datePanel .month {
+                font-size: 14px;
+                grid-column: 2 / 2;
+            }
+
+            #monthSelectorPanel {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            #prevMonth {
+                margin-left: 10px;
+                font-size: 15px;
+                justify-self: start;
+            }
+
+            #currentMonth {
+                font-size: 20px;
+                justify-self: center;
+            }
+
+            #nextMonth {
+                margin-right: 10px;
+                font-size: 15px;
+                justify-self: end;
+            }
+
+            #daysPanel {
+                display: grid;
+                grid-template-columns: auto auto auto auto auto auto auto;
+                justify-items: center;
+                align-items: center;
+                grid-template-rows: var(--row-height) var(--row-height) var(--row-height) var(--row-height) var(--row-height) var(--row-height);
+            }
+
+            .dayName {
+                font-size: 15px;
+                font-weight: bold;
+            }
+
+            .day {
+                font-size: 15px;
+            }
+
+            .currentDay {
+                background-color: #10ACFF;
+                color: white;
+                border-radius: 30px;
+                padding: 8px;
+            }
+        </style>
+
+        <div id="wrapper">
+
+            <div id="datePanel">
+                <div class="year">[[year]]</div>
+                <div class="date">[[month]]/[[day]]</div>
+                <div class="month">[[month]]</div>
+            </div>
+
+            <div id="monthSelectorPanel">
+                <div id="prevMonth">[[_prevMonthName(month)]]</div>
+                <div id="currentMonth">[[_currentMonthName(month)]]</div>
+                <div id="nextMonth">[[_nextMonthName(month)]]</div>
+            </div>
+
+            <div id="daysPanel">
+                <template is="dom-repeat" items="[[_getDays()]]">
+                    <div class="dayName">
+                        [[item]]
+                    </div>
+                </template>
+
+    <template is="dom-repeat" items="[[_getDaysOfMonth(year, month)]]">
+                    <div class$="day [[_dayClass(item, day)]]">
+                        [[item]]
+                    </div>
+                </template>
+    </div>
+
+    </div>
+
+    </template>
+
+    <script>
+        /**
+         * `acme-calendar`
+         * Acme calendar
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class AcmeCalendar extends Polymer.Element {
+
+            static get is() {
+                return 'acme-calendar';
+            }
+
+            static get properties() {
+                return {
+                    year: Number,
+                    month: Number,
+                    day: Number
+                };
+            }
+
+            _dayClass(item, day) {
+                return item === day ? "currentDay" : "";
+            }
+
+            _prevMonthName(month) {
+                return "May";
+            }
+
+            _currentMonthName(month) {
+                return "June";
+            }
+
+            _nextMonthName(month) {
+                return "July";
+            }
+
+            _getDays() {
+                return ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+            }
+
+            _getDaysOfMonth(year, month) {
+                return Array.from({
+                    length: 30
+                }, (x, i) => i + 1);
+            }
+        }
+
+        window.customElements.define(AcmeCalendar.is, AcmeCalendar);
+    </script>
+</dom-module>

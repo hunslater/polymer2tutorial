@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="bower_components/polymer/polymer-element.html">
+</head>
+
+<body>
+
+    <dom-module id="acme-properites">
+        <script>
+            class AcmeProperties extends Polymer.Element {
+
+                static get is() {
+                    return 'acme-properties';
+                }
+
+                static get properties() {
+                    return {
+                        age: Number,
+                        name: String,
+                        isAdult: Boolean,
+                        skills: Array,
+                        levels: Object
+                    }
+                }
+
+                connectedCallback() {
+                    super.connectedCallback();
+                    console.log("Component is created");
+                }
+
+            }
+
+            window.customElements.define(AcmeProperties.is, AcmeProperties);
+        </script>
+    </dom-module>
+
+    <acme-properties></acme-properties>
+
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+<html>
+
+<body>
+
+    <template id="my-template">
+        <h1>Hello world from template!</h1>
+    </template>
+
+    <div id="parent">
+    </div>
+
+    <script>
+        let template = document.getElementById("my-template").content.cloneNode(true);
+        document.getElementById("parent").appendChild(template);
+    </script>
+
+</body>
+
+</html>

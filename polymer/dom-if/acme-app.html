@@ -1,0 +1,52 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="bower_components/polymer/lib/elements/dom-if.html">
+
+
+<dom-module id="acme-app">
+
+    <template>
+        <h1>Hello world from acme application...</h1>
+
+        <template is="dom-if" if="{{visible}}">
+            <h3>Visible is true</h3>
+        </template>
+
+    <template is="dom-if" if="{{!visible}}">
+            <h3>Visible is false</h3>
+        </template>
+
+    <template is="dom-if" if="{{_isVisible(age, 23)}}">
+            <h3>This is displayed only if age is less than 23</h3>
+        </template>
+
+    </template>
+
+    <script>
+        class AcmeApp extends Polymer.Element {
+
+            static get is() {
+                return 'acme-app';
+            }
+
+            static get properties() {
+                return {
+                    visible: {
+                        type: Boolean,
+                        value: true
+                    },
+                    age: {
+                        type: Number,
+                        value: 20
+                    }
+                }
+            }
+
+            _isVisible(age, value) {
+                return age < value;
+            }
+
+        }
+
+        window.customElements.define(AcmeApp.is, AcmeApp);
+    </script>
+</dom-module>

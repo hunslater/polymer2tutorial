@@ -1,0 +1,197 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="mixin-datetime.html">
+
+<dom-module id="acme-calendar">
+    <template>
+
+        <style>
+             :host {
+                display: block;
+                --row-height: 60px;
+                --current-day-background: #10ACFF;
+                --current-day-color: white;
+                --current-day-hover: lightgray;
+                --header-month-color: #10ACFF;
+                --previous-day-color: lightgray;
+            }
+
+            #wrapper {
+                font-family: Arial, sans-serif;
+                width: 400px;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: -moz-none;
+                -o-user-select: none;
+                user-select: none;
+            }
+
+            #datePanel {
+                display: grid;
+                grid-template-columns: 80px auto;
+                margin-bottom: 20px;
+            }
+
+            #datePanel .year {
+                font-size: 30px;
+                grid-row: 1 / span 2;
+            }
+
+            #datePanel .date {
+                font-size: 14px;
+                grid-column: 2 / 2;
+            }
+
+            #datePanel .day {
+                font-size: 14px;
+                grid-column: 2 / 2;
+            }
+
+            #monthSelectorPanel {
+                display: grid;
+                grid-template-columns: auto auto auto;
+                margin-top: 10px;
+                margin-bottom: 20px;
+            }
+
+            #prevMonth {
+                margin-left: 10px;
+                font-size: 15px;
+                justify-self: start;
+            }
+
+            #prevMonth:hover {
+                color: var(--header-month-color);
+                cursor: pointer;
+            }
+
+            #currentMonth {
+                font-size: 20px;
+                justify-self: center;
+            }
+
+            #nextMonth {
+                margin-right: 10px;
+                font-size: 15px;
+                justify-self: end;
+            }
+
+            #nextMonth:hover {
+                color: var(--header-month-color);
+                cursor: pointer;
+            }
+
+            #daysPanel {
+                display: grid;
+                grid-template-columns: auto auto auto auto auto auto auto;
+                justify-items: center;
+                align-items: center;
+                grid-template-rows: var(--row-height) var(--row-height) var(--row-height) var(--row-height) var(--row-height) var(--row-height) var(--row-height);
+            }
+
+            .dayName {
+                font-size: 15px;
+                font-weight: bold;
+            }
+
+            .day {
+                font-size: 15px;
+                padding: 8px;
+            }
+
+            .day:hover {
+                background-color: var(--current-day-hover);
+                border-radius: 30px;
+                cursor: pointer;
+            }
+
+            .currentDay {
+                background-color: var(--current-day-background);
+                color: var(--current-day-color);
+                border-radius: 30px;
+            }
+
+            .prevDay {
+                color: var(--previous-day-color);
+            }
+        </style>
+
+        <div id="wrapper">
+
+            <div id="datePanel">
+                <div class="year">[[year]]</div>
+                <div class="date">[[month]]/[[day]]</div>
+                <div class="day">[[_getDayName(year, month, day, locale)]]</div>
+            </div>
+
+            <div id="monthSelectorPanel">
+                <div id="prevMonth">[[_prevMonthName(month)]]</div>
+                <div id="currentMonth">[[_currentMonthName(month)]]</div>
+                <div id="nextMonth">[[_nextMonthName(month)]]</div>
+            </div>
+
+            <div id="daysPanel">
+                <template is="dom-repeat" items="[[_getDayNamesOfWeek(locale)]]">
+                    <div class="dayName">
+                        [[item]]
+                    </div>
+                </template>
+
+    <template is="dom-repeat" items="[[_getDaysInCalendarMonth(year, month)]]">
+                    <div class$="day [[_dayClass(item, day)]]">
+                        [[item.day]]
+                    </div>
+                </template>
+    </div>
+
+    </div>
+
+    </template>
+
+    <script>
+        /**
+         * `acme-calendar`
+         * Acme calendar
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class AcmeCalendar extends Acme.DatetimeMixin(Polymer.Element) {
+
+            static get is() {
+                return 'acme-calendar';
+            }
+
+            static get properties() {
+                return {
+                    year: Number,
+                    month: Number,
+                    day: Number,
+                    locale: {
+                        type: String,
+                        value: "en"
+                    }
+                };
+            }
+
+            _dayClass(item, day) {
+                return item.day === day ? "currentDay" : "";
+            }
+
+            _prevMonthName(month) {
+                return this._getMonthName(month === 1 ? 12 : month - 1, this.locale);
+            }
+
+            _currentMonthName(month) {
+                return this._getMonthName(month, this.locale);
+            }
+
+            _nextMonthName(month) {
+                return this._getMonthName(month === 12 ? 1 : month + 1, this.locale);
+            }
+
+        }
+
+        window.customElements.define(AcmeCalendar.is, AcmeCalendar);
+    </script>
+</dom-module>

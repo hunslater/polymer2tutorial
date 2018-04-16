@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="bower_components/polymer/polymer-element.html">
+</head>
+
+<body>
+
+    <dom-module id="acme-properites">
+        <script>
+            class AcmeProperties extends Polymer.Element {
+
+                static get is() {
+                    return 'acme-properties';
+                }
+
+                static get properties() {
+                    return {
+                        firstName: {
+                            type: String,
+                            value: "John"
+                        },
+                        lastName: {
+                            type: String,
+                            value: "Doe"
+                        },
+                        fullName: {
+                            type: String,
+                            computed: '_computedFullName(firstName, lastName)'
+                        }
+                    }
+                }
+
+
+                connectedCallback() {
+                    super.connectedCallback();
+
+                    // Expected John Doe
+                    console.log(this.fullName);
+
+                    this.firstName = "Jack";
+
+                    // Expected Jack Doe
+                    console.log(this.fullName);
+                }
+
+                _computedFullName(firstName, lastName) {
+                    return firstName + " " + lastName;
+                }
+
+
+
+            }
+
+            window.customElements.define(AcmeProperties.is, AcmeProperties);
+        </script>
+    </dom-module>
+
+    <acme-properties></acme-properties>
+
+</body>
+
+</html>

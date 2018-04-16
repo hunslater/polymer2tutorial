@@ -1,0 +1,64 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="acme-calendar">
+    <template>
+
+        <style>
+             :host {
+                display: block;
+            }
+        </style>
+
+        <div id="wrapper">
+
+            <h1>[[year]] [[month]] [[day]]</h1>
+
+            <template is="dom-repeat" items="[[_getDays()]]">
+                [[item]]
+            </template>
+
+    <template is="dom-repeat" items="[[_getDaysOfMonth(year, month)]]">
+                [[item]]
+            </template>
+
+    </div>
+
+    </template>
+
+    <script>
+        /**
+         * `acme-calendar`
+         * Acme calendar
+         *
+         * @customElement
+         * @polymer
+         * @demo demo/index.html
+         */
+        class AcmeCalendar extends Polymer.Element {
+
+            static get is() {
+                return 'acme-calendar';
+            }
+
+            static get properties() {
+                return {
+                    year: Number,
+                    month: Number,
+                    day: Number
+                };
+            }
+
+            _getDays() {
+                return ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+            }
+
+            _getDaysOfMonth(year, month) {
+                return Array.from({
+                    length: 30
+                }, (x, i) => i + 1);
+            }
+        }
+
+        window.customElements.define(AcmeCalendar.is, AcmeCalendar);
+    </script>
+</dom-module>

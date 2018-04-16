@@ -1,0 +1,24 @@
+<html>
+
+<head>
+    <link rel="import" href="child.html">
+</head>
+
+<body>
+
+    <p>Here comes the content of the child.html:</p>
+
+    <div id="wrapper"></div>
+
+    <script>
+        var link = document.querySelector('link[rel="import"]');
+        var content = link.import;
+
+        // Grab DOM from warning.html's document.
+        var el = content.querySelector('.part');
+
+        document.querySelector("#wrapper").appendChild(el.cloneNode(true));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="bower_components/polymer/polymer-element.html">
+</head>
+
+<body>
+
+    <dom-module id="acme-properites">
+        <script>
+            class AcmeProperties extends Polymer.Element {
+
+                static get is() {
+                    return 'acme-properties';
+                }
+
+                static get properties() {
+                    return {
+                        age: {
+                            type: Number,
+                            value: 18
+                        },
+                        name: {
+                            type: String,
+                            value: "John Doe"
+                        },
+                        adult: {
+                            type: Boolean,
+                            value: true
+                        },
+                        skills: {
+                            type: Array,
+                            value: function() {
+                                return ["developer", "scrum master", "tester"];
+                            }
+                        },
+                        levels: {
+                            type: Object,
+                            value: function() {
+                                return {
+                                    java: "beginner",
+                                    cpp: "mid",
+                                    javascript: "expert"
+                                };
+                            }
+                        }
+                    }
+                }
+
+                connectedCallback() {
+                    super.connectedCallback();
+                    console.log("Component is created");
+                    console.log("Age:" + this.age);
+                    console.log("Name:" + this.age);
+                    console.log("Adult:" + this.adult);
+                    console.log("Skills:" + this.skills);
+                    console.log("Levels:" + JSON.stringify(this.levels));
+                }
+
+            }
+
+            window.customElements.define(AcmeProperties.is, AcmeProperties);
+        </script>
+    </dom-module>
+
+    <acme-properties></acme-properties>
+
+</body>
+
+</html>
